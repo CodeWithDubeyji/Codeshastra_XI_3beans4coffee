@@ -1,5 +1,5 @@
 /* Font is loaded via next/font/google in layout.tsx */
-
+@import url('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
