@@ -1,5 +1,7 @@
 "use client"
-
+import { supabase } from "@/lib/supabaseClient"
+import { useEffect } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -8,12 +10,28 @@ import { motion } from "framer-motion"
 
 export default function Header() {
   const pathname = usePathname()
+  const [isloggedIn, setIsLoggedIn] = useState(false)
   
   // Determine which buttons to show based on the current path
   const showCollaborationButton = pathname.includes("/create-trip") || pathname.includes("/itinerary-options")
   const showInviteButton = pathname.includes("/itinerary-details")
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      // Handle the user data if needed
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+
+    };
+    fetchUser();
+  }, []);
+
   
   return (
+    
     <header className="backdrop-blur-xl bg-gradient-to-r from-white/90 to-blue-50/90 sticky top-0 z-50 border-b border-blue-100/30 shadow-sm">
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-8">
         <Link href="/" className="group flex items-center gap-3 text-xl transition-all duration-300">
@@ -111,12 +129,14 @@ export default function Header() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.2 }}
             >
-              <Link 
+              {isloggedIn && (
+                <Link 
                 href="/login" 
                 className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors px-4 py-2 hover:bg-blue-50/50 rounded-full"
               >
                 Log In
               </Link>
+              )}
             </motion.div>
             
             <motion.div
@@ -124,12 +144,22 @@ export default function Header() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.3 }}
             >
-              <Link
+              {isloggedIn && (
+                <Link
                 href="/signup"
                 className="text-sm font-medium bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-2.5 rounded-full hover:shadow-md hover:from-blue-700 hover:to-blue-600 transition-all duration-300 shadow-sm"
               >
                 Sign Up
               </Link>
+              )}
+              {!isloggedIn && (
+                <Link
+                href="/signup"
+                className="text-sm font-medium bg-gradient-to-r text-red-600 border border-red-600 px-6 py-2.5 rounded-full hover:shadow-md hover:from-border-red-700 hover:to-border-red-600 hover:from-font-light hover:to-font-bold transition-all duration-300 shadow-sm"
+              >
+                Log out
+              </Link>
+              )}
             </motion.div>
           </nav>
         </div>
