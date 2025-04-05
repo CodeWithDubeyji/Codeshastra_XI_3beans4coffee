@@ -45,8 +45,8 @@ export default function SignUp() {
       // Replace with your actual registration logic
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // If signup is successful, redirect to dashboard or verification page
-      router.push('/verification');
+      // Redirect to quiz instead of verification
+      router.push('/quiz');
     } catch (err) {
       setError('Registration failed. Please try again.');
     } finally {
