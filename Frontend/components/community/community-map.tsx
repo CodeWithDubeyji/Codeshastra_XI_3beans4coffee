@@ -1,24 +1,18 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
-import "leaflet/dist/leaflet.css"
-import { Icon } from "leaflet"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from "@react-google-maps/api"
 import { Button } from "@/components/ui/button"
 
-// Fix for default marker icon in Leaflet with Next.js
-const markerIcon = new Icon({
-  iconUrl: "/marker-icon.png",
-  iconRetinaUrl: "/marker-icon-2x.png",
-  shadowUrl: "/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-})
+const containerStyle = {
+  width: "100%",
+  height: "100%",
+}
 
-// Sample locations data - in a real app, this would come from an API
+const center = { lat: 20, lng: 0 }
+
+// Sample locations
 const locations = [
   { id: 1, name: "Paris", lat: 48.8566, lng: 2.3522, postCount: 124 },
   { id: 2, name: "Tokyo", lat: 35.6762, lng: 139.6503, postCount: 89 },
@@ -27,51 +21,46 @@ const locations = [
   { id: 5, name: "Cape Town", lat: -33.9249, lng: 18.4241, postCount: 42 },
 ]
 
-export default function CommunityMap() {
+export default function CommunityMapGoogle() {
   const router = useRouter()
-  const [isMounted, setIsMounted] = useState(false)
+  const [activeMarker, setActiveMarker] = useState<number | null>(null)
 
-  useEffect(() => {
-    setIsMounted(true)
-
-    // Load marker icons
-    const link = document.createElement("link")
-    link.rel = "stylesheet"
-    link.href = "https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-    document.head.appendChild(link)
-  }, [])
+  // Load the Google Maps JS API
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+  })
 
   const handleViewCommunity = (locationId: number) => {
     router.push(`/community/${locationId}`)
   }
 
-  if (!isMounted) return null
+  if (!isLoaded) return null
 
   return (
-    <MapContainer center={[20, 0]} zoom={2} style={{ height: "100%", width: "100%" }} className="z-0">
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-
+    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={2}>
       {locations.map((location) => (
-        <Marker key={location.id} position={[location.lat, location.lng]} icon={markerIcon}>
-          <Popup>
-            <div className="p-1">
-              <h3 className="font-semibold text-lg">{location.name}</h3>
-              <p className="text-sm text-slate-600 mb-2">{location.postCount} posts from travelers</p>
-              <Button
-                size="sm"
-                className="w-full bg-blue-600 hover:bg-blue-700"
-                onClick={() => handleViewCommunity(location.id)}
-              >
-                View Community
-              </Button>
-            </div>
-          </Popup>
+        <Marker
+          key={location.id}
+          position={{ lat: location.lat, lng: location.lng }}
+          onClick={() => setActiveMarker(location.id)}
+        >
+          {activeMarker === location.id && (
+            <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+              <div className="p-1 max-w-[200px]">
+                <h3 className="font-semibold text-lg">{location.name}</h3>
+                <p className="text-sm text-slate-600 mb-2">{location.postCount} posts from travelers</p>
+                <Button
+                  size="sm"
+                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  onClick={() => handleViewCommunity(location.id)}
+                >
+                  View Community
+                </Button>
+              </div>
+            </InfoWindow>
+          )}
         </Marker>
       ))}
-    </MapContainer>
+    </GoogleMap>
   )
 }
-
