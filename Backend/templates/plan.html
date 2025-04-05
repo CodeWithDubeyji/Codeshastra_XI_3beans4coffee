@@ -1,0 +1,101 @@
+<!-- templates/plan.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Trip Plan to {{ plan.destination }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Your Trip to {{ plan.destination }}</h1>
+        
+        <!-- Hidden input for plan_id -->
+        <input type="hidden" id="plan-id" value="{{ plan_id }}">
+
+        <!-- Trip Overview -->
+        <section class="trip-overview">
+            <h2>Trip Overview</h2>
+            <p><strong>From:</strong> {{ plan.origin }} to {{ plan.destination }}</p>
+            <p><strong>Dates:</strong> {{ plan.arrival_date }} to {{ plan.departure_date }}</p>
+            <p><strong>Budget:</strong> ${{ plan.budget }}</p>
+            <p><strong>Preferences:</strong> {{ plan.preferences or 'None specified' }}</p>
+        </section>
+
+        <!-- Flights -->
+        <section class="flights">
+            <h2>Flight Options</h2>
+            {% for flight in plan.flights %}
+                <div class="card">
+                    <h3>{{ flight.airline }}</h3>
+                    <p>Depart: {{ flight.departure_time }} - Arrive: {{ flight.arrival_time }}</p>
+                    <p>Duration: {{ flight.duration }} | Stopovers: {{ flight.stopover }}</p>
+                    <p><strong>Price: ${{ flight.price }}</strong></p>
+                </div>
+            {% endfor %}
+        </section>
+
+        <!-- Hotels -->
+        <section class="hotels">
+            <h2>Hotel Options</h2>
+            {% for hotel in plan.hotels %}
+                <div class="card">
+                    <h3>{{ hotel.name }}</h3>
+                    <p>{{ hotel.rating }} stars | {{ hotel.location }}</p>
+                    <p>Amenities: {{ hotel.amenities|join(', ') }}</p>
+                    <p><strong>${{ hotel.price_per_night }}/night | Total: ${{ hotel.total_price }}</strong></p>
+                </div>
+            {% endfor %}
+        </section>
+
+        <!-- Itinerary -->
+        <section class="itinerary">
+            <h2>Daily Itinerary</h2>
+            {% for date, day in plan.itinerary.items() %}
+                <div class="day">
+                    <h3>{{ date }}</h3>
+                    <p><strong>Morning:</strong> 
+                        {% if day.morning %}{{ day.morning.name }} (${{ day.morning.price }}) - {{ day.morning.description }}{% else %}Free time{% endif %}
+                    </p>
+                    <p><strong>Afternoon:</strong> 
+                        {% if day.afternoon %}{{ day.afternoon.name }} (${{ day.afternoon.price }}) - {{ day.afternoon.description }}{% else %}Free time{% endif %}
+                    </p>
+                    <p><strong>Evening:</strong> 
+                        {% if day.evening %}{{ day.evening.name }} (${{ day.evening.price }}) - {{ day.evening.description }}{% else %}Free time{% endif %}
+                    </p>
+                    <p><strong>Meals:</strong></p>
+                    <ul>
+                        {% for meal in day.meals %}
+                            <li>{{ meal.type }}: {{ meal.suggestion }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </section>
+
+        <!-- Budget Breakdown -->
+        <section class="budget">
+            <h2>Budget Breakdown</h2>
+            <p>Flights: ${{ plan.budget_allocation.flights }}</p>
+            <p>Accommodation: ${{ plan.budget_allocation.accommodation }}</p>
+            <p>Activities: ${{ plan.budget_allocation.activities }}</p>
+            <p>Remaining: ${{ plan.budget_allocation.remaining }}</p>
+            <p>Daily Spending Money: ${{ "%.2f"|format(plan.budget_allocation.daily_spending_money) }}</p>
+        </section>
+
+        <!-- Chatbot -->
+        <section class="chatbot">
+            <h2>Travel Assistant</h2>
+            <div id="chat-container">
+                <div id="chat-messages"></div>
+                <div id="chat-input">
+                    <input type="text" id="chat-message" placeholder="Ask about your trip...">
+                    <button onclick="sendMessage(document.getElementById('plan-id').value)">Send</button>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>
