@@ -8,59 +8,130 @@ import { motion } from "framer-motion"
 
 export default function Header() {
   const pathname = usePathname()
-
+  
   // Determine which buttons to show based on the current path
   const showCollaborationButton = pathname.includes("/create-trip") || pathname.includes("/itinerary-options")
   const showInviteButton = pathname.includes("/itinerary-details")
-
+  
   return (
-    <header className="border-b border-gray-100 backdrop-blur-md bg-white/80 sticky top-0 z-50">
-      <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="text-xl font-semibold text-blue-600 flex items-center">
+    <header className="backdrop-blur-xl bg-gradient-to-r from-white/90 to-blue-50/90 sticky top-0 z-50 border-b border-blue-100/30 shadow-sm">
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-8">
+        <Link href="/" className="group flex items-center gap-3 text-xl transition-all duration-300">
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.3 }}
+            initial={{ scale: 0.9, opacity: 0, rotate: -10 }}
+            animate={{ scale: 1, opacity: 1, rotate: 0 }}
+            transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
+            className="relative"
           >
             <svg
               viewBox="0 0 24 24"
-              className="h-8 w-8 mr-2 text-blue-600"
+              className="h-10 w-10 text-blue-600 drop-shadow-sm transition-transform duration-300 group-hover:scale-110"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path d="M12 2L6.5 11L17.5 11L12 2Z" fill="currentColor" fillOpacity="0.8" />
-              <path d="M17.5 22L17.5 11L6.5 11L6.5 22L17.5 22Z" fill="currentColor" fillOpacity="0.6" />
+              <motion.path 
+                d="M12 2L6.5 11L17.5 11L12 2Z" 
+                fill="currentColor" 
+                fillOpacity="0.9"
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 0.9, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              />
+              <motion.path 
+                d="M17.5 22L17.5 11L6.5 11L6.5 22L17.5 22Z" 
+                fill="currentColor" 
+                fillOpacity="0.7"
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 0.7, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              />
+              <motion.circle
+                cx="12"
+                cy="16"
+                r="1.5"
+                fill="white"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 0.9, scale: 1 }}
+                transition={{ delay: 0.6, duration: 0.3 }}
+              />
             </svg>
+            <motion.div 
+              className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-blue-400"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.7, duration: 0.3 }}
+            />
           </motion.div>
-          TripPlanner
+          <div className="font-light tracking-tight text-gray-800">
+            <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent font-medium">Trip</span>
+            <span className="font-semibold">Planner</span>
+          </div>
         </Link>
-        <div className="flex items-center gap-4">
+        
+        <div className="flex items-center gap-4 md:gap-6">
           {showCollaborationButton && (
-            <Button variant="ghost" size="sm" className="text-blue-600 hover:bg-blue-50">
-              <Users className="mr-2 h-4 w-4" />
-              Join Others' Trips
-            </Button>
-          )}
-          {showInviteButton && (
-            <Button variant="ghost" size="sm" className="text-blue-600 hover:bg-blue-50">
-              <Share2 className="mr-2 h-4 w-4" />
-              Invite to Collaborate
-            </Button>
-          )}
-          <nav className="flex gap-4">
-            <Link href="/login" className="text-sm font-medium hover:text-blue-600 transition-colors">
-              Log In
-            </Link>
-            <Link
-              href="/signup"
-              className="text-sm font-medium bg-blue-50 text-blue-600 px-3 py-1.5 rounded-full hover:bg-blue-100 transition-colors"
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              Sign Up
-            </Link>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-blue-600 hover:bg-blue-100/50 hover:text-blue-700 rounded-full px-5 py-2 transition-all duration-200 font-medium text-sm border border-blue-100/50 hover:border-blue-200"
+              >
+                <Users className="mr-2 h-4 w-4" />
+                Join Trips
+              </Button>
+            </motion.div>
+          )}
+          
+          {showInviteButton && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+            >
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-blue-600 hover:bg-blue-100/50 hover:text-blue-700 rounded-full px-5 py-2 transition-all duration-200 font-medium text-sm border border-blue-100/50 hover:border-blue-200"
+              >
+                <Share2 className="mr-2 h-4 w-4" />
+                Invite
+              </Button>
+            </motion.div>
+          )}
+          
+          <nav className="flex items-center gap-2 md:gap-5">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+            >
+              <Link 
+                href="/login" 
+                className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors px-4 py-2 hover:bg-blue-50/50 rounded-full"
+              >
+                Log In
+              </Link>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.3 }}
+            >
+              <Link
+                href="/signup"
+                className="text-sm font-medium bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-2.5 rounded-full hover:shadow-md hover:from-blue-700 hover:to-blue-600 transition-all duration-300 shadow-sm"
+              >
+                Sign Up
+              </Link>
+            </motion.div>
           </nav>
         </div>
       </div>
     </header>
   )
 }
-
