@@ -1,5 +1,5 @@
 "use client"
-
+import { supabase } from '@/lib/supabaseClient'
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -40,13 +40,17 @@ export default function SignUp() {
     
     setIsLoading(true);
     setError('');
+    const { data, error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+    });
     
     try {
       // Replace with your actual registration logic
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // If signup is successful, redirect to dashboard or verification page
-      router.push('/verification');
+      // Redirect to quiz instead of verification
+      router.push('/quiz');
     } catch (err) {
       setError('Registration failed. Please try again.');
     } finally {
