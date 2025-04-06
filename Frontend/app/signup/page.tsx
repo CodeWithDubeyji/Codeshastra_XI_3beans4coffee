@@ -33,7 +33,7 @@ export default function SignUp() {
       setError('Passwords do not match');
       return;
     }
-    await supabase.from('users').insert({ "fullname": formData.fullName, "email": formData.email , "password":formData.confirmPassword})
+    await supabase.from('users').insert({ "fullname": formData.fullName, "email": formData.email , "password":formData.})
     const {data , error} = await supabase
   .from('users')         // your table name
   .select('id')          // only fetch the 'id' column
