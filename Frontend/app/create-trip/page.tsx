@@ -8,6 +8,7 @@ import TripForm from '@/components/trip-creation/trip-form'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/use-toast'
+import { DEFAULT_BUDGET_INR, formatCurrency } from '@/lib/currency'
 
 interface Preferences {
   mountain: boolean
@@ -27,7 +28,7 @@ export default function CreateTrip() {
     destination: '',
     startDate: '',
     endDate: '',
-    budget: 2000,
+    budget: 10, // Initialize with rupees
     travelers: 1,
     ageGroup: 'adult',
     preferences: {

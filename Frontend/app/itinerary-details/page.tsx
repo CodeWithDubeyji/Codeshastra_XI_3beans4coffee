@@ -70,7 +70,7 @@ const defaultItineraryData = {
   rawItinerary: ''
 }
 
-export default function ItineraryDetails () {
+export default function ItineraryDetails() {
   const [itineraryData, setItineraryData] = useState(defaultItineraryData)
   const [rawMarkdown, setRawMarkdown] = useState('')
   const pdfRef = useRef(null)
@@ -251,13 +251,13 @@ export default function ItineraryDetails () {
           activities.length > 0
             ? activities
             : [
-                {
-                  time: 'All Day',
-                  title: 'Explore',
-                  description: 'Details not available',
-                  cost: null
-                }
-              ],
+              {
+                time: 'All Day',
+                title: 'Explore',
+                description: 'Details not available',
+                cost: null
+              }
+            ],
         // Store the raw content for this day for markdown rendering
         rawContent: dayContent
       })
@@ -303,14 +303,22 @@ export default function ItineraryDetails () {
             {/* <ItineraryTimeline days={itineraryData.days} dates={itineraryData.dates} /> */}
 
             {/* Add a section that displays the raw itinerary with proper markdown formatting */}
-            <div className='elegant-card bg-white p-8 relative'>
-              <div className='flex justify-between items-center mb-4'>
-                <h2 className='text-2xl font-semibold'>Complete Itinerary</h2>
+            <div className='elegant-card bg-white p-0 rounded-2xl shadow-md overflow-hidden border border-gray-100'>
+              <div className='flex justify-between items-center p-6 border-b border-gray-100'>
+                <h2 className='text-2xl font-semibold text-gray-800 flex items-center gap-2'>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                  Complete Itinerary
+                </h2>
                 <Button
                   variant='outline'
                   size='sm'
                   onClick={generatePDF}
-                  className='flex items-center gap-2'
+                  className='flex items-center gap-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-full py-2 px-4 transition-all'
                 >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -330,17 +338,95 @@ export default function ItineraryDetails () {
                   Download PDF
                 </Button>
               </div>
+
               <div
-                className='prose max-w-none overflow-y-auto max-h-[500px] pr-4'
+                className='p-6'
                 ref={pdfRef}
-                style={{
-                  scrollbarWidth: 'thin',
-                  scrollbarColor: '#cbd5e1 #f8fafc'
-                }}
               >
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {rawMarkdown}
-                </ReactMarkdown>
+                <div className='flex justify-between items-center mb-6'>
+                  <div className='flex items-center gap-2 text-gray-500'>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>{itineraryData.dates}</span>
+                  </div>
+                  <div className='flex items-center gap-2 text-gray-500'>
+                    {/* <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="12" y1="1" x2="12" y2="23"></line>
+                      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg> */}
+                    <span>Total: ₹{itineraryData.totalCost}</span>
+                  </div>
+                </div>
+
+                <div
+                  className='prose max-w-none overflow-y-auto max-h-[600px] pr-4 itinerary-content'
+                  style={{
+                    scrollbarWidth: 'thin',
+                    scrollbarColor: '#cbd5e1 #f8fafc'
+                  }}
+                >
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      h1: ({ node, ...props }) => <h1 {...props} className="text-2xl font-bold text-gray-800 mt-8 mb-4" />,
+                      h2: ({ node, ...props }) => <h2 {...props} className="text-xl font-semibold text-gray-700 mt-6 mb-3 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M12 20h9"></path>
+                          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                        </svg>
+                        {props.children}
+                      </h2>,
+                      h3: ({ node, ...props }) => <h3 {...props} className="text-lg font-medium text-gray-700 mt-4 mb-2" />,
+                      p: ({ node, ...props }) => <p {...props} className="text-gray-600 mb-4 leading-relaxed" />,
+                      ul: ({ node, ...props }) => <ul {...props} className="pl-6 mb-4 space-y-2" />,
+                      ol: ({ node, ...props }) => <ol {...props} className="pl-6 mb-4 space-y-2" />,
+                      li: ({ node, ...props }) => <li {...props} className="text-gray-600 flex items-start gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-1 flex-shrink-0 text-blue-500">
+                          <polyline points="9 11 12 14 22 4"></polyline>
+                          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                        </svg>
+                        <span>{props.children}</span>
+                      </li>,
+                      blockquote: ({ node, ...props }) => <blockquote {...props} className="border-l-4 border-gray-200 pl-4 italic text-gray-600" />,
+                      code: ({ node, ...props }) => <code {...props} className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono text-gray-800" />,
+                      pre: ({ node, ...props }) => <pre {...props} className="bg-gray-50 p-4 rounded-lg overflow-x-auto text-sm font-mono text-gray-800 border border-gray-200" />,
+                      a: ({ node, ...props }) => <a {...props} className="text-blue-500 hover:text-blue-700 underline" />,
+                      img: ({ node, ...props }) => <img {...props} className="rounded-lg max-w-full h-auto my-4 shadow-sm" />,
+                      table: ({ node, ...props }) => <div className="overflow-x-auto my-6">
+                        <table {...props} className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg" />
+                      </div>,
+                      thead: ({ node, ...props }) => <thead {...props} className="bg-gray-50" />,
+                      tbody: ({ node, ...props }) => <tbody {...props} className="divide-y divide-gray-200" />,
+                      tr: ({ node, ...props }) => <tr {...props} className="hover:bg-gray-50" />,
+                      th: ({ node, ...props }) => <th {...props} className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" />,
+                      td: ({ node, ...props }) => <td {...props} className="px-4 py-3 whitespace-nowrap text-sm text-gray-600" />,
+                      hr: ({ node, ...props }) => <hr {...props} className="my-6 border-t border-gray-200" />,
+                    }}
+                  >
+                    {rawMarkdown}
+                  </ReactMarkdown>
+                </div>
+              </div>
+
+              <div className="px-6 pb-6 pt-2 flex gap-4 border-t border-gray-100 mt-2">
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                  <span>{itineraryData.days.length} Days</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  <span>Activities: {itineraryData.days.reduce((acc, day) => acc + day.activities.length, 0)}</span>
+                </div>
               </div>
             </div>
 
@@ -382,5 +468,7 @@ export default function ItineraryDetails () {
         </div>
       </div>
     </div>
+    
   )
 }
+

@@ -9,6 +9,7 @@ import ItineraryCard from "@/components/itinerary-options/itinerary-card"
 import { motion } from "framer-motion"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
+
 interface Itinerary {
   id: number
   title: string
