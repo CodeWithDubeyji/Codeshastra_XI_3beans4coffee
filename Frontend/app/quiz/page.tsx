@@ -4,38 +4,46 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaMountain, FaSnowflake, FaUmbrellaBeach, FaPlane, FaCar, FaTrain, FaBus, FaWallet, FaCalendarAlt } from 'react-icons/fa';
 import { MdLocalActivity } from 'react-icons/md';
+import { supabase } from '@/lib/supabaseClient';
 
 export default function TravelQuiz() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [answers, setAnswers] = useState<{
-    ageGroup: string;
+    id:string
+    age: string;
     travelStyle: string;
-    bucketList: string[];
+    bucketList: string;
     interests: string[];
     travelFrequency: string;
     preferredTransport: string;
     budgetRange: string;
-    travelDuration: string;
+   
   }>({
-    ageGroup: '',
+    id:String(localStorage.getItem("userId") || ""),
+    age: '',
     travelStyle: '',
-    bucketList: [],
+    bucketList: '',
     interests: [],
     travelFrequency: '',
     preferredTransport: '',
-    budgetRange: '',
-    travelDuration: ''
+    budgetRange: ''
+   
   });
 
-  const handleNext = () => {
+  const handleNext = async() => {
     if (step < 7) {
       setStep(step + 1);
     } else {
       // Redirect to create trip page
+      
       router.push('/create-trip');
     }
   };
+  const handelsubmit = async()=>{
+    await supabase.from('user_preference').insert(answers)
+    console.log("data saved successfully")
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-500 to-white-700 flex items-center justify-center p-4">
@@ -61,7 +69,7 @@ export default function TravelQuiz() {
                 <button
                   key={age}
                   onClick={() => {
-                    setAnswers({ ...answers, ageGroup: age });
+                    setAnswers({ ...answers, age: age });
                     handleNext();
                   }}
                   className="p-4 border-2 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-all flex items-center space-x-3"
@@ -150,7 +158,7 @@ export default function TravelQuiz() {
             <textarea
               className="w-full p-4 border-2 rounded-xl h-32 focus:border-blue-500 focus:ring-blue-500"
               placeholder="Enter your travel dreams (e.g., See Northern Lights, Visit Great Wall of China)"
-              onChange={(e) => setAnswers({ ...answers, bucketList: e.target.value.split(',') })}
+              onChange={(e) => setAnswers({ ...answers, bucketList: e.target.value })}
             />
             <button
                 onClick={handleNext}
@@ -235,6 +243,7 @@ export default function TravelQuiz() {
               onClick={() => {
                 if (answers.budgetRange) {
                   router.push('/create-trip');
+                  handelsubmit();
                 }
               }}
               disabled={!answers.budgetRange}

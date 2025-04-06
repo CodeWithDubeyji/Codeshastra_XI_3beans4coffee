@@ -11,6 +11,7 @@ export default function SignUp() {
     password: '',
     confirmPassword: ''
   });
+
   const [agreement, setAgreement] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -26,29 +27,39 @@ export default function SignUp() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Basic validation
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-    
+    await supabase.from('users').insert({ "fullname": formData.fullName, "email": formData.email , "password":formData.confirmPassword})
+    const {data , error} = await supabase
+  .from('users')         // your table name
+  .select('id')          // only fetch the 'id' column
+  .eq('email', formData.email)  // match where email = test@example.com
+  .single();
+  if (error) {
+    console.error('Error fetching ID:', error);
+  } else {
+    localStorage.setItem('userId', data.id);
+  }
     if (!agreement) {
       setError('You must agree to the Terms and Privacy Policy');
       return;
     }
-    
+
     setIsLoading(true);
     setError('');
-    const { data, error } = await supabase.auth.signUp({
+     await supabase.auth.signUp({
       email: formData.email,
       password: formData.password,
     });
-    
+
     try {
       // Replace with your actual registration logic
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // Redirect to quiz instead of verification
       router.push('/quiz');
     } catch (err) {
