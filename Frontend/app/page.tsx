@@ -69,25 +69,26 @@ export default function Home() {
           >
             <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden shadow-2xl border border-white/20 backdrop-blur-sm">
               <Image
-                src="/images/dashboard-preview.jpg"
-                alt="TripPlanner Dashboard"
-                fill
-                className="object-cover"
+              src="/radek-skrzypczak-9DlxKGjaVYQ-unsplash.jpg" 
+              alt="TripPlanner Dashboard"
+              fill
+              className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
               
               {/* UI overlay elements */}
               <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
-                <div>
-                  <div className="text-white text-xl font-bold mb-1">Trip to Paris</div>
-                  <div className="text-white/80 text-sm">April 15-22, 2025</div>
-                </div>
-                <div className="bg-white/90 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg">
-                  <div className="text-blue-600 font-medium">$2,450</div>
-                  <div className="text-gray-500 text-xs">Budget</div>
-                </div>
+              <div>
+                <div className="text-white text-xl font-bold mb-1">Plan Your Dream Vacation</div>
+                <div className="text-white/80 text-sm">Discover amazing destinations worldwide</div>
+              </div>
+              <div className="bg-white/90 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg">
+                <div className="text-blue-600 font-medium">Smart Planning</div>
+                <div className="text-gray-500 text-xs">AI-Powered</div>
+              </div>
               </div>
             </div>
+            
           </motion.div>
         </div>
       </section>
@@ -231,7 +232,7 @@ export default function Home() {
             >
               <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl border border-gray-100">
                 <Image
-                  src="/images/travel-experience.jpg"
+                  src="/axp-photography-GwJJTfS0tMI-unsplash.jpg"
                   alt="Trip Planning"
                   width={600}
                   height={600}
@@ -243,7 +244,7 @@ export default function Home() {
                 <div className="flex items-center space-x-2">
                   <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shadow-inner">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns="Frontend\public\axp-photography-GwJJTfS0tMI-unsplash.jpg"
                       width="20"
                       height="20"
                       viewBox="0 0 24 24"

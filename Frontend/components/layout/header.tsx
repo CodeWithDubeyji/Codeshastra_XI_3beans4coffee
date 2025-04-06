@@ -43,7 +43,7 @@ export default function Header() {
           >
             <svg
               viewBox="0 0 24 24"
-              className="h-10 w-10 text-blue-600 drop-shadow-sm transition-transform duration-300 group-hover:scale-110"
+                className="h-8 w-8 text-blue-600 drop-shadow-sm transition-transform duration-300 group-hover:scale-110"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -93,16 +93,28 @@ export default function Header() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <Link href="/community">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="text-blue-600 hover:bg-blue-100/50 hover:text-blue-700 rounded-full px-5 py-2 transition-all duration-200 font-medium text-sm border border-blue-100/50 hover:border-blue-200"
-              >
-                <Users className="mr-2 h-4 w-4" />
-                Community
-              </Button>
-              </Link>
+                <div className="flex gap-2">
+                <Link href="/community">
+                  <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-blue-600 hover:bg-blue-100/50 hover:text-blue-700 rounded-full px-5 py-2 transition-all duration-200 font-medium text-sm border border-blue-100/50 hover:border-blue-200"
+                  >
+                  <Users className="mr-2 h-4 w-4" />
+                  Community
+                  </Button>
+                </Link>
+                <Link href="/dashboard">
+                  <Button 
+                  variant="ghost"
+                  size="sm" 
+                  className="text-blue-600 hover:bg-blue-100/50 hover:text-blue-700 rounded-full px-5 py-2 transition-all duration-200 font-medium text-sm border border-blue-100/50 hover:border-blue-200"
+                  >
+                  <Users className="mr-2 h-4 w-4" />
+                   Profile
+                  </Button>
+                </Link>
+                </div>
             </motion.div>
           )}
           
