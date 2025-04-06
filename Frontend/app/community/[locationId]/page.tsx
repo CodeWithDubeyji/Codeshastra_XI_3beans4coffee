@@ -97,7 +97,7 @@ export default async function CommunityPage({ params }: { params: { locationId: 
         <Tabs defaultValue="posts" className="w-full">
           <TabsList className="mb-6">
             <TabsTrigger value="posts">Posts</TabsTrigger>
-            <TabsTrigger value="scrapbook">Scrapbook</TabsTrigger>
+         
             <TabsTrigger value="tips">Travel Tips</TabsTrigger>
           </TabsList>
 
