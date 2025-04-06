@@ -119,10 +119,9 @@ export default function Header() {
             </motion.div>
           )}
           
-          {showInviteButton && (
-
-    <header className="fixed top-6 left-1/2 -translate-x-1/2 w-[70%] max-w-5xl z-50 mb-8">
-      <div 
+    {showInviteButton && (
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 w-[70%] max-w-5xl z-50 mb-8">
+        <div 
         className="backdrop-blur-sm bg-white/70 hover:bg-white/80 transition-all duration-300 
           rounded-2xl border border-gray-100/50 shadow-md 
           hover:shadow-lg hover:-translate-y-1 h-12"
@@ -307,6 +306,10 @@ export default function Header() {
             </nav>
           </div>
 
+        </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </header>
