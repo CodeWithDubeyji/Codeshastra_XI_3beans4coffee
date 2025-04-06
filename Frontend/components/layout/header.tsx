@@ -25,7 +25,7 @@ export default function Header() {
           >
             <svg
               viewBox="0 0 24 24"
-              className="h-10 w-10 text-blue-600 drop-shadow-sm transition-transform duration-300 group-hover:scale-110"
+                className="h-8 w-8 text-blue-600 drop-shadow-sm transition-transform duration-300 group-hover:scale-110"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
