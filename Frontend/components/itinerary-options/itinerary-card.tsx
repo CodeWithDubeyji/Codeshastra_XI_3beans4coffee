@@ -73,7 +73,7 @@ export default function ItineraryCard({ itinerary, isSelected, onSelect, index }
             <div className="pt-4 border-t">
               <div className="flex justify-between items-center">
                 <span className="font-medium">Total Cost</span>
-                <span className="font-bold text-xl text-blue-600">${itinerary.cost}</span>
+                <span className="font-bold text-xl text-blue-600">₹{itinerary.cost}</span>
               </div>
             </div>
           </div>

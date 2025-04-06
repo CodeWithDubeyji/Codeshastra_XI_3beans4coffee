@@ -26,7 +26,7 @@ export default function TripSummary({ totalCost, duration, costBreakdown }: Trip
           <div className="grid grid-cols-2 gap-4">
             <div>
               <div className="text-sm text-muted-foreground">Total Cost</div>
-              <div className="font-bold text-xl text-blue-600">${totalCost}</div>
+              <div className="font-bold text-xl text-blue-600">₹{totalCost}</div>
             </div>
             <div>
               <div className="text-sm text-muted-foreground">Duration</div>
@@ -38,19 +38,19 @@ export default function TripSummary({ totalCost, duration, costBreakdown }: Trip
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span>Transportation</span>
-                <span className="font-medium">${costBreakdown.transportation}</span>
+                <span className="font-medium">₹{costBreakdown.transportation}</span>
               </div>
               <div className="flex justify-between">
                 <span>Accommodation</span>
-                <span className="font-medium">${costBreakdown.accommodation}</span>
+                <span className="font-medium">₹{costBreakdown.accommodation}</span>
               </div>
               <div className="flex justify-between">
                 <span>Activities</span>
-                <span className="font-medium">${costBreakdown.activities}</span>
+                <span className="font-medium">₹{costBreakdown.activities}</span>
               </div>
               <div className="flex justify-between">
                 <span>Food</span>
-                <span className="font-medium">${costBreakdown.food}</span>
+                <span className="font-medium">₹{costBreakdown.food}</span>
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import React from "react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
@@ -176,22 +177,22 @@ export default function TripForm({ tripData, onTripDataChange }: TripFormProps) 
       <motion.div variants={item} className="space-y-3">
         <div className="flex justify-between items-center">
           <Label htmlFor="budget" className="text-base font-medium">
-            Budget (USD)
+            Budget (INR)
           </Label>
-          <span className="text-xl font-semibold text-blue-600">${tripData.budget}</span>
+          <span className="text-xl font-semibold text-blue-600">₹{tripData.budget}</span>
         </div>
         <Slider
           id="budget"
-          min={500}
-          max={10000}
+          min={5000}
+          max={1000000}
           step={100}
           value={[tripData.budget]}
           onValueChange={(value) => onTripDataChange("budget", value[0])}
           className="py-4"
         />
         <div className="flex justify-between text-sm text-gray-500">
-          <span>$500</span>
-          <span>$10,000</span>
+          <span>₹5000</span>
+          <span>₹10,00000</span>
         </div>
       </motion.div>
 
