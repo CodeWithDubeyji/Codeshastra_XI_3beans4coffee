@@ -74,8 +74,29 @@ export default function ItineraryDetails () {
   const [itineraryData, setItineraryData] = useState(defaultItineraryData)
   const [rawMarkdown, setRawMarkdown] = useState('')
   const pdfRef = useRef(null)
+  const fullContentRef = useRef(null)
+
+  // Update the generatePDF function and hidden div
 
   const generatePDF = () => {
+    // Create a temporary div element that will be visible during PDF generation
+    const tempDiv = document.createElement('div')
+    tempDiv.style.position = 'absolute'
+    tempDiv.style.left = '-9999px' // Position off-screen
+    tempDiv.style.top = '0'
+    tempDiv.innerHTML = `
+    <div class="p-8 bg-white" style="width: 800px;">
+      <h1 class="text-2xl font-bold mb-4">${itineraryData.title}</h1>
+      <p class="text-gray-600 mb-6">${itineraryData.dates}</p>
+      <div class="prose max-w-none">
+        ${document.querySelector('.prose')?.innerHTML || ''}
+      </div>
+    </div>
+  `
+
+    // Append to body
+    document.body.appendChild(tempDiv)
+
     // Options for the PDF generation
     const options = {
       filename: `${itineraryData.title.replace(/\s+/g, '-')}_itinerary.pdf`,
@@ -85,9 +106,16 @@ export default function ItineraryDetails () {
       }
     }
 
-    if (pdfRef.current) {
-      toPDF(pdfRef, options)
-    }
+    // Generate PDF from the temporary div - wrap the element in a function to match TargetElementFinder type
+    toPDF(() => tempDiv, options)
+      .then(() => {
+        // Remove the temporary div after PDF generation
+        document.body.removeChild(tempDiv)
+      })
+      .catch(error => {
+        console.error('Error generating PDF:', error)
+        document.body.removeChild(tempDiv)
+      })
   }
 
   useEffect(() => {
