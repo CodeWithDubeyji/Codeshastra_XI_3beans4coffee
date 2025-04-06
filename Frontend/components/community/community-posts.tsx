@@ -51,7 +51,7 @@ export default async function CommunityPosts({ locationId }: { locationId: numbe
           </div>
 
           <div className="relative aspect-video w-full">
-            <Image src={post.image || "/placeholder.svg"} alt="Post image" fill className="object-cover" />
+            <Image src= "/anthony-delanoix-QAwciFlS1g4-unsplash.jpg" alt="Post image" fill className="object-cover" />
           </div>
 
           <div className="p-4 border-t border-slate-100">

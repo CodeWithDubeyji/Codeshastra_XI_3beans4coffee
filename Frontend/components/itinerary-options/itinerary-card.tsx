@@ -38,12 +38,15 @@ export default function ItineraryCard({ itinerary, isSelected, onSelect, index }
         }`}
       >
         <CardHeader className="p-0">
+        
           <div className="relative h-48 w-full">
-            <Image src={itinerary.image || "/placeholder.svg"} alt={itinerary.title} fill className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-            <div className="absolute bottom-0 left-0 p-6 text-white">
-              <CardTitle className="text-2xl font-bold mb-1">{itinerary.title}</CardTitle>
-              <div className="text-sm opacity-90">{itinerary.subtitle}</div>
+            <div className="relative h-full w-full">
+              <Image 
+          src="/aleksandrs-karevs-9PZePvYSM4U-unsplash.jpg" 
+          alt="Secondary view" 
+          fill 
+          className="object-cover" 
+              />
             </div>
           </div>
         </CardHeader>
